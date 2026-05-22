@@ -70,6 +70,4 @@ for raw in text.splitlines():
 - 자세한 내용은 [summary.md](summary.md) 참조
 
 ## 스크린샷
-![요약 결과 화면](screenshot-result.png)
-
-> 스크린샷은 `summary.md`를 Claude Code 또는 마크다운 미리보기에서 본 화면을 직접 캡처해주세요.
+![요약 결과 화면](yt-summary.png)

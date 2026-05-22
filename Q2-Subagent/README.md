@@ -73,6 +73,6 @@
 - **불확실하면 ❓.** 출처 부족·모순 클 때 억지로 결론 내리지 않도록 명시.
 
 ## 스크린샷
-![서브에이전트 실행 결과](screenshot-result.png)
+![서브에이전트 실행 결과](agents_result.png)
 
 > 참고: 위 [factcheck-result.md](factcheck-result.md) 파일이 실제 에이전트 파이프라인이 만들어낸 출력. 스크린샷은 Claude Code에서 같은 워크플로우를 실행했을 때의 채팅 화면.
