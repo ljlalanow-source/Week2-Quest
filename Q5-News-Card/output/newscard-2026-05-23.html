@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>유료 AI 구독이 대학생 성적 좌우</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    width: 1080px;
+    height: 1350px;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    background: #ffffff;
+  }
+
+  .card {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    padding: 72px;
+    display: flex;
+    flex-direction: column;
+    color: #1d1d1f;
+  }
+
+  /* 배경 — 애플 스타일 부드러운 파스텔 그라데이션 */
+  .bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 18% 22%, #ffd6e8 0%, transparent 38%),
+      radial-gradient(circle at 82% 18%, #c5e1ff 0%, transparent 42%),
+      radial-gradient(circle at 12% 88%, #d4f0e2 0%, transparent 38%),
+      radial-gradient(circle at 88% 82%, #fef0c7 0%, transparent 42%),
+      linear-gradient(135deg, #fff5f7 0%, #f0f5ff 50%, #fffaf0 100%);
+    z-index: 0;
+  }
+
+  /* 떠다니는 컬러풀 블롭들 — 글래스 뒤에 비치는 색감용 */
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.55;
+    z-index: 1;
+  }
+  .blob-1 {
+    width: 380px; height: 380px;
+    top: -80px; right: -100px;
+    background: linear-gradient(135deg, #ff9ec7, #c084fc);
+  }
+  .blob-2 {
+    width: 320px; height: 320px;
+    bottom: 180px; left: -80px;
+    background: linear-gradient(135deg, #93c5fd, #a7f3d0);
+  }
+  .blob-3 {
+    width: 260px; height: 260px;
+    top: 480px; right: 120px;
+    background: linear-gradient(135deg, #fcd34d, #fb923c);
+    opacity: 0.4;
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* 상단 배지 — 글래스 */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 24px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 100px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #1d1d1f;
+    width: fit-content;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  .badge .dot {
+    width: 10px;
+    height: 10px;
+    background: linear-gradient(135deg, #ff6b9d, #c084fc);
+    border-radius: 50%;
+    box-shadow: 0 0 12px rgba(192, 132, 252, 0.5);
+  }
+
+  /* 헤드라인 */
+  .headline {
+    margin-top: 48px;
+    font-size: 100px;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -0.045em;
+    color: #1d1d1f;
+  }
+
+  /* 서브타이틀 */
+  .subtitle {
+    margin-top: 36px;
+    font-size: 34px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #515154;
+    letter-spacing: -0.02em;
+  }
+
+  /* 핵심 포인트 글래스 카드 */
+  .points {
+    margin-top: 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .point {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    padding: 28px 32px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 28px;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  .point .num {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #ff6b9d 0%, #c084fc 50%, #60a5fa 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow:
+      0 6px 20px rgba(192, 132, 252, 0.4),
+      inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .point:nth-child(2) .num {
+    background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+    box-shadow: 0 6px 20px rgba(96, 165, 250, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .point:nth-child(3) .num {
+    background: linear-gradient(135deg, #fbbf24 0%, #fb923c 100%);
+    box-shadow: 0 6px 20px rgba(251, 146, 60, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+  .point .text {
+    font-size: 30px;
+    font-weight: 600;
+    color: #1d1d1f;
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+  }
+
+  /* 푸터 — 글래스 */
+  .footer {
+    margin-top: auto;
+    padding: 22px 28px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 24px;
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  }
+  .source {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .source-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1d1d1f, #4a4a4f);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 22px;
+    color: #fff;
+    letter-spacing: -0.02em;
+  }
+  .source-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .source-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1d1d1f;
+    letter-spacing: -0.01em;
+  }
+  .source-meta {
+    font-size: 18px;
+    color: #86868b;
+    margin-top: 2px;
+  }
+  .swipe {
+    font-size: 20px;
+    color: #86868b;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+  }
+  .swipe span {
+    color: #1d1d1f;
+    margin-left: 8px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bg"></div>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="content">
+      <div class="badge">
+        <span class="dot"></span>
+        AI · 교육
+      </div>
+
+      <h1 class="headline">유료 AI 구독이<br>대학생 성적 좌우</h1>
+
+      <p class="subtitle">월 수만원대 구독료 부담으로<br>교육격차 심화</p>
+
+      <div class="points">
+        <div class="point">
+          <div class="num">1</div>
+          <div class="text">학생 월 최대 25만원 AI 구독료</div>
+        </div>
+        <div class="point">
+          <div class="num">2</div>
+          <div class="text">동국대 35만원 지원, 고려대 0원</div>
+        </div>
+        <div class="point">
+          <div class="num">3</div>
+          <div class="text">전문가 “새로운 정보 격차” 경고</div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <div class="source">
+          <div class="source-logo">N</div>
+          <div class="source-info">
+            <div class="source-name">뉴시스</div>
+            <div class="source-meta">2026.05.22</div>
+          </div>
+        </div>
+        <div class="swipe">SWIPE<span>→</span></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
