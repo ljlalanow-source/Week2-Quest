@@ -50,3 +50,6 @@ temp/
 
 # 부부 다이어리 (개인 정보 — 절대 공개 안 함)
 reports/
+
+# Playwright MCP 작업 캐시 (페이지 스냅샷, 콘솔 로그)
+.playwright-mcp/
