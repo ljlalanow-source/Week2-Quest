@@ -7,40 +7,42 @@
 ```
 Week2-Quest/
 ├── .gitignore
+├── .mcp.json                 # Playwright MCP 등록
 ├── .claude/                  # 스킬 & 에이전트 정의
 │   ├── skills/
-│   │   ├── meeting-summary/  # Q1: 회의록 → 요약 + 액션 아이템
-│   │   ├── yt-summary/       # Q3: YouTube URL → 자막 요약
+│   │   ├── skill-creator/    # 메타 스킬 (새 스킬 제작용)
+│   │   ├── bubu-report/      # Q1: 부부 월간 결산 다이어리
 │   │   ├── naver-blog/       # Q4: 기사 URL → 네이버 블로그 초안
 │   │   └── news-card/        # Q5: 기사 URL → 인스타 뉴스 카드
 │   └── agents/
-│       ├── researcher.md     # Q2: 경쟁사·시장 조사
-│       ├── analyst.md        # Q2: 비교/인사이트 추출
-│       └── writer.md         # Q2: 최종 보고서 작성
-├── Q0-GWS-CLI/    # 구글 워크스페이스 CLI 활용
-├── Q1-Skill/      # skill-creator로 직접 만든 스킬
-├── Q2-Subagent/   # 멀티 에이전트 팀 구성
-├── Q3-YT-Summary/ # yt-dlp + Claude 요약 스킬
+│       ├── fact-finder.md    # Q2: 자료 수집 (출처 3~5개)
+│       ├── cross-verifier.md # Q2: 교차 검증 + 신뢰도 등급
+│       └── conclusion-writer.md # Q2: 최종 판정 + 근거 요약
+├── Q0-GWS-CLI/    # 구글 워크스페이스 CLI 활용 (미진행)
+├── Q1-Skill/      # skill-creator로 bubu-report 스킬 제작
+├── Q2-Subagent/   # 팩트체크 3-에이전트 파이프라인
+├── Q3-YT-Summary/ # yt-dlp + Python + Claude 유튜브 요약
 ├── Q4-Naver-Blog/ # Playwright MCP로 블로그 초안 자동화
-└── Q5-News-Card/  # 기사 → 인스타 뉴스 카드(HTML/PNG)
+├── Q5-News-Card/  # 기사 → 인스타 뉴스 카드(HTML/PNG)
+└── reports/       # bubu-report 스킬이 저장하는 월간 결산
 ```
 
 ## 퀘스트 요약
 
-| # | 주제 | 핵심 도구 |
-|---|------|-----------|
-| Q0 | 구글 워크스페이스 CLI로 메일/캘린더 자동화 | GWS CLI |
-| Q1 | skill-creator로 회의록 요약 스킬 제작 | Skill |
-| Q2 | researcher/analyst/writer 3-에이전트 협업 | Subagent |
-| Q3 | YouTube 영상 → 자막 요약 스킬 | yt-dlp + Skill |
-| Q4 | 기사 URL → 네이버 블로그 초안 임시저장 | Playwright MCP |
-| Q5 | 기사 URL → 인스타용 뉴스 카드 HTML/PNG | HTML + 스킬 |
+| # | 주제 | 핵심 도구 | 상태 |
+|---|------|-----------|------|
+| Q0 | 구글 워크스페이스 CLI로 메일/캘린더 자동화 | GWS CLI | ⏳ 미진행 |
+| Q1 | skill-creator로 부부 월간 결산 다이어리 스킬(`/bubu-report`) 제작 | Skill | ✅ |
+| Q2 | fact-finder → cross-verifier → conclusion-writer 팩트체크 파이프라인 | Subagent | ✅ |
+| Q3 | yt-dlp로 자막 수집 → Python 정리 → Claude 구조화 요약 | yt-dlp + Skill | ✅ |
+| Q4 | 기사 URL → 네이버 블로그 초안 임시저장(`/naver-blog`) | Playwright MCP | ✅ |
+| Q5 | 기사 URL → 인스타용 뉴스 카드 HTML/PNG(`/news-card`) | HTML + 스킬 | ✅ |
 
 ## 사용 방법
 
 각 퀘스트 폴더의 `README.md`에 실행 방법과 결과 스크린샷이 정리돼 있습니다.
 
-모든 스킬과 에이전트는 `.claude/` 디렉터리에 정의돼 있고, Claude Code에서 자동으로 인식됩니다. 새 대화에서 `/[스킬명]` 또는 서브에이전트 호출(`@[에이전트명]`)로 사용할 수 있습니다.
+모든 스킬과 에이전트는 `.claude/` 디렉터리에 정의돼 있고, Claude Code에서 자동으로 인식됩니다. 새 대화에서 `/[스킬명]` 또는 서브에이전트 자연어 호출로 사용할 수 있습니다.
 
 ## 보안 / 비밀 정보
 
